@@ -1,0 +1,21 @@
+<launch>
+  <arg name="camera" default="event_camera"/>
+  <!-- <arg name="message_type" default="event_packet"/> -->
+  <arg name="message_type" default="dvs"/>
+  <!-- <arg name="message_type" default="dv-ros"/> -->
+  <node pkg="event_camera_tools" type="republish_node" name="republish" clear_params="true" output="screen">
+    <param name="output_message_type" value="$(arg message_type)"/>
+    <!-- <remap from="~/input_events" to="/$(arg camera)/events"/> -->
+    
+    <!-- remap inputs from bag file -->
+    <remap from="~/input_events" to="/uuv02/event_camera/events"/>
+    <remap from="/uuv02/event_camera/imu" to="/dvs/imu"/>  
+    
+
+
+    <!-- <remap from="~/output_events" to="/$(arg camera)/republished_events"/> -->
+    <remap from="~/output_events" to="/dvs/events"/>
+
+    <remap from="~/output_triggers" to="/$(arg camera)/republished_triggers"/>
+  </node>
+</launch>
